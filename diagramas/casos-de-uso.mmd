@@ -1,0 +1,109 @@
+---
+config:
+  theme: neutral
+  layout: elk
+  elk:
+    preset: "modelOrder"
+  fontFamily: "Arimo, Liberation Sans, Arial, sans-serif"
+  themeCSS: ".marker.usecase .arrowMarkerPath{transform-origin:11.5px 7px;transform:scale(.65);fill:none !important;stroke:#000 !important;stroke-width:1.6px !important;stroke-dasharray:26.9 100 !important;stroke-linejoin:miter !important}.relationship-include,.relationship-extend{stroke:#000 !important;stroke-width:1.3px !important;stroke-dasharray:7 5 !important}.relationship-association{stroke:#000 !important}.edgeLabel,.edgeLabel *{background:#fff !important;background-color:#fff !important;fill:#000 !important;color:#000 !important}.labelBkg{background-color:#fff !important;fill:#fff !important}.usecase-actor-outline,.usecase-actor-stick{stroke:#000 !important}.usecase-actor-glyph *{stroke:#000 !important}.edgeLabel *,.edgeLabel{font-size:28px !important}.system-boundary-title text,.system-boundary-title span,.system-boundary-title p{font-size:30px !important}.system-boundary-title foreignObject{width:900px !important;overflow:visible !important;transform:translateX(-2px)}.system-boundary-title div{width:900px !important;max-width:900px !important;white-space:nowrap !important}"
+  usecase:
+    usecaseFontFamily: "Arimo, Liberation Sans, Arial, sans-serif"
+    actorFontFamily: "Arimo, Liberation Sans, Arial, sans-serif"
+    usecaseFontSize: 28
+    actorFontSize: 28
+    wrappingWidth: 270
+---
+usecase-beta
+direction LR
+actor administrador("Administrador")
+actor veterinario("Veterinario")
+actor recepcionista("Recepcionista")
+actor cliente("Cliente")
+actor cuidador("Cuidador")
+systemBoundary sistema("Sistema de gestión de guardería Patitas Felices")
+  generar_reporte_de_ocupacion_y_frecuencia("Generar reporte de ocupación y frecuencia de uso por cliente")
+  generar_reporte_de_satisfaccion("Generar reporte de satisfacción")
+  configurar_capacidad("Configurar capacidad")
+  crear_usuario("Crear usuario")
+  consultar_usuarios_y_roles("Consultar usuarios y roles")
+  asignar_rol("Asignar rol")
+  registrar_plan_de_cuidado("Registrar plan de cuidado")
+  programar_alertas_de_cuidado("Programar alertas de cuidado")
+  cerrar_sesion("Cerrar sesión")
+  autenticar_usuario("`Autenticar
+usuario`")
+  consultar_propietarios_y_mascotas("Consultar propietarios y mascotas")
+  actualizar_datos_del_propietario("Actualizar datos del propietario")
+  registrar_propietario_y_mascota("Registrar propietario y mascota")
+  asignar_codigo_unico_a_la_mascota("Asignar código único a la mascota")
+  registrar_personas_autorizadas("Registrar personas autorizadas")
+  registrar_ingreso("Registrar ingreso")
+  verificar_disponibilidad_para_el_ingreso("Verificar disponibilidad para el ingreso")
+  registrar_intento_de_retiro_no_autorizado("Registrar intento de retiro no autorizado")
+  verificar_persona_autorizada("Verificar persona autorizada")
+  entregar_mascota("Entregar mascota")
+  responder_encuesta_de_satisfaccion("Responder encuesta de satisfacción")
+  comparar_la_mascota_con_la_foto("Comparar la mascota con la foto registrada")
+  verificar_codigo_de_la_mascota("Verificar código de la mascota")
+  atender_alerta_de_cuidado("Atender alerta de cuidado")
+  consultar_alertas_de_cuidado("Consultar alertas de cuidado")
+  programar_actividad("Programar actividad")
+  validar_restricciones_de_actividad("Validar restricciones de actividad")
+  consultar_agenda_de_actividades("Consultar agenda de actividades")
+  registrar_actividad_realizada("Registrar actividad realizada")
+  cancelar_actividad("Cancelar actividad")
+end
+generar_reporte_de_ocupacion_y_frecuencia ..> : include autenticar_usuario
+administrador --- generar_reporte_de_ocupacion_y_frecuencia
+generar_reporte_de_satisfaccion ..> : include autenticar_usuario
+administrador --- generar_reporte_de_satisfaccion
+configurar_capacidad ..> : include autenticar_usuario
+administrador --- configurar_capacidad
+crear_usuario ..> : include asignar_rol
+crear_usuario ..> : extend consultar_usuarios_y_roles
+administrador --- crear_usuario
+consultar_usuarios_y_roles ..> : include autenticar_usuario
+administrador --- consultar_usuarios_y_roles
+registrar_plan_de_cuidado ..> : include autenticar_usuario
+registrar_plan_de_cuidado ..> : include programar_alertas_de_cuidado
+veterinario --- registrar_plan_de_cuidado
+administrador --- cerrar_sesion
+veterinario --- cerrar_sesion
+recepcionista --- cerrar_sesion
+cuidador --- cerrar_sesion
+consultar_propietarios_y_mascotas ..> : include autenticar_usuario
+registrar_propietario_y_mascota ..> : include autenticar_usuario
+actualizar_datos_del_propietario ..> : include autenticar_usuario
+registrar_ingreso ..> : include autenticar_usuario
+entregar_mascota ..> : include autenticar_usuario
+consultar_alertas_de_cuidado ..> : include autenticar_usuario
+consultar_agenda_de_actividades ..> : include autenticar_usuario
+recepcionista --- consultar_propietarios_y_mascotas
+recepcionista --- actualizar_datos_del_propietario
+registrar_propietario_y_mascota ..> : include asignar_codigo_unico_a_la_mascota
+recepcionista --- registrar_propietario_y_mascota
+registrar_personas_autorizadas ..> : extend registrar_ingreso
+registrar_ingreso ..> : include verificar_disponibilidad_para_el_ingreso
+recepcionista --- registrar_ingreso
+registrar_intento_de_retiro_no_autorizado ..> : extend verificar_persona_autorizada
+entregar_mascota ..> : include verificar_persona_autorizada
+entregar_mascota ..> : include verificar_codigo_de_la_mascota
+entregar_mascota ..> : include comparar_la_mascota_con_la_foto
+responder_encuesta_de_satisfaccion ..> : extend entregar_mascota
+recepcionista --- entregar_mascota
+cliente --- entregar_mascota
+cuidador --- entregar_mascota
+cliente --- responder_encuesta_de_satisfaccion
+atender_alerta_de_cuidado ..> : include verificar_codigo_de_la_mascota
+atender_alerta_de_cuidado ..> : extend consultar_alertas_de_cuidado
+cuidador --- atender_alerta_de_cuidado
+cuidador --- consultar_alertas_de_cuidado
+programar_actividad ..> : include validar_restricciones_de_actividad
+programar_actividad ..> : extend consultar_agenda_de_actividades
+cuidador --- programar_actividad
+registrar_actividad_realizada ..> : extend consultar_agenda_de_actividades
+cancelar_actividad ..> : extend consultar_agenda_de_actividades
+cuidador --- consultar_agenda_de_actividades
+cuidador --- registrar_actividad_realizada
+cuidador --- cancelar_actividad
+style autenticar_usuario line-height:2.2

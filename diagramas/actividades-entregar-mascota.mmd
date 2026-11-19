@@ -1,0 +1,102 @@
+---
+config:
+  look: classic
+  layout: dagre
+  htmlLabels: false
+  fontFamily: "Arimo, Liberation Sans, Arial, sans-serif"
+  theme: base
+  themeCSS: ".edgeLabel rect, .labelBkg { opacity: 1; fill: #ffffff; } .edgeLabel { background-color: #ffffff; } .outer-path { transform: scale(1.7); } .outer-path g path { fill: #000000; stroke: #000000; }"
+  themeVariables:
+    fontFamily: "Arimo, Liberation Sans, Arial, sans-serif"
+    fontSize: 16px
+    primaryColor: "#ffffff"
+    primaryBorderColor: "#000000"
+    primaryTextColor: "#000000"
+    lineColor: "#000000"
+    nodeBorder: "#000000"
+    stateBorder: "#000000"
+    edgeLabelBackground: "#ffffff"
+  flowchart:
+    htmlLabels: false
+    wrappingWidth: 600
+    nodeSpacing: 25
+    rankSpacing: 26
+    padding: 6
+    curve: linear
+---
+flowchart TB
+  s((" "))
+  a0("(Recepcionista)<br/>Entrar al módulo de entregas")
+  a0b("(Sistema)<br/>Mostrar las salidas de hoy y avisar<br/>de las mascotas parecidas")
+  a1("(Recepcionista)<br/>Buscar la estancia e iniciar<br/>la entrega")
+  a2("(Sistema)<br/>Mostrar los datos de la estancia,<br/>la foto y las personas autorizadas")
+  a3("(Recepcionista)<br/>Pedir el documento original")
+  a3b("(Cliente)<br/>Presentar el documento de identidad")
+  a3c("(Recepcionista)<br/>Digitar el número de documento<br/>y pulsar Verificar persona")
+  a4("(Sistema)<br/>Verificar si la persona<br/>está autorizada")
+  d1{" "}
+  x1("(Sistema)<br/>Registrar el intento y avisar que<br/>la persona no está autorizada")
+  x2("(Recepcionista)<br/>Volver a entregas")
+  f1@{ shape: fr-circ }
+  m1{" "}
+  m3{" "}
+  b1("(Recepcionista)<br/>Pedir la mascota al cuidador")
+  b2("(Cuidador)<br/>Traer la mascota a recepción")
+  b3("(Recepcionista)<br/>Escanear el código del collar<br/>y pulsar Verificar código")
+  b4("(Sistema)<br/>Verificar el código contra<br/>la estancia")
+  d2{" "}
+  b6("(Sistema)<br/>Mostrar la alerta con la mascota<br/>traída y la esperada")
+  b7("(Recepcionista)<br/>Pedir la mascota correcta<br/>al cuidador")
+  cA1((A))
+  cA2((A))
+  cE1((E))
+  cE2((E))
+  cG1((G))
+  cG2((G))
+  cB1((B))
+  cB2((B))
+  cC1((C))
+  cC2((C))
+  m2{" "}
+  b5("(Recepcionista)<br/>Comparar la mascota con<br/>la foto registrada")
+  d3{" "}
+  c0("(Recepcionista)<br/>Marcar que la mascota coincide con<br/>la foto y pulsar Confirmar entrega")
+  c1("(Sistema)<br/>Pedir la confirmación: se cerrará<br/>la estancia y se liberará el cupo")
+  d4{" "}
+  c2("(Sistema)<br/>Cerrar la estancia y liberar el cupo")
+  c3("(Sistema)<br/>Habilitar la encuesta de satisfacción")
+  c4("(Sistema)<br/>Mostrar la entrega registrada")
+  c5("(Sistema)<br/>Mostrar el mensaje de confirmación")
+  c6("(Cliente)<br/>Recibir la mascota")
+  d5{" "}
+  f2@{ shape: fr-circ }
+  e0("(Sistema)<br/>Mostrar la encuesta en la tableta")
+  d6{" "}
+  f3@{ shape: fr-circ }
+  e1("(Cliente)<br/>Calificar el cuidado y comentar")
+  e1b("(Cliente)<br/>Enviar la respuesta")
+  e2("(Sistema)<br/>Registrar la respuesta y mostrar<br/>el agradecimiento")
+  f4@{ shape: fr-circ }
+
+  s --> a0 --> a0b --> a1 --> a2 --> a3 --> a3b --> a3c --> a4 --> d1
+  d1 -->|"[no autorizada]"| x1 --> x2 --> f1
+  d1 -->|"[autorizada]"| cE1
+  cE2 --> m1
+  cA2 --> m3
+  cB2 --> m1
+  m1 --> b1 --> m3 --> b2 --> b3 --> b4 --> d2
+  d2 -->|"[código no coincide]"| b6 --> b7 --> cA1
+  d2 -->|"[código coincide]"| m2
+  cC2 --> m2
+  m2 --> b5 --> d3
+  d3 -->|"[no coincide con la foto]"| cB1
+  d3 -->|"[coincide con la foto]"| c0 --> c1 --> d4
+  d4 -->|"[cancela]"| cC1
+  d4 -->|"[confirma]"| cG1
+  cG2 --> c2 --> c3 --> c4 --> c5 --> c6 --> d5
+  d5 -->|"[finaliza sin encuesta]"| f2
+  d5 -->|"[abre la encuesta]"| e0 --> d6
+  d6 -->|"[omite]"| f3
+  d6 -->|"[responde]"| e1 --> e1b --> e2 --> f4
+
+  style s fill:#000,stroke:#000,stroke-width:5px
