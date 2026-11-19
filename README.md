@@ -79,4 +79,12 @@ La funcionalidad seleccionada es Entregar mascota.
 
 ![Diagrama de casos de uso del sistema completo](diagramas/casos-de-uso.svg)
 
-https://www.figma.com/proto/QrbZxTJ08zarIsTeol9RK1/TS-103004-Patitas-Felices?node-id=26-83&p=f&t=k5OhJwz3NcOlVvdE-1&scaling=min-zoom&content-scaling=fixed&page-id=13%3A4&starting-point-node-id=26%3A83&show-proto-sidebar=1
+
+## 5. Mockup del sistema
+
+Diseño visual y flujo de navegación de la interfaz de usuario para **Patitas Felices**, elaborado en Figma.
+
+[Ver prototipo interactivo en Figma](https://www.figma.com/proto/QrbZxTJ08zarIsTeol9RK1/TS-103004-Patitas-Felices?node-id=26-83&p=f&t=k5OhJwz3NcOlVvdE-1&scaling=min-zoom&content-scaling=fixed&page-id=13%3A4&starting-point-node-id=26%3A83&show-proto-sidebar=1)
+
+
+
